@@ -2,39 +2,10 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>G3赛季战场地图 - 交互式标记工具</title>
 <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
 <style>
-  /* ===== 手机端适配 ===== */
-@media (max-width: 640px) {
-  header h1 { font-size: 14px; }
-  header p { font-size: 11px; }
-  .container { padding: 8px; gap: 8px; }
-  .color-toolbar { padding: 6px 6px; gap: 4px; justify-content: center; }
-  .color-toolbar-label { font-size: 10px; width: 100%; text-align: center; }
-  .color-toolbar .color-grid { grid-template-columns: repeat(10, 1fr); gap: 3px; width: 100%; }
-  .color-toolbar .color-btn { width: 22px; height: 22px; min-width: 18px; min-height: 18px; }
-  .color-toolbar .btn { padding: 4px 6px; font-size: 11px; flex: 1; min-height: 32px; justify-content: center; }
-  .map-wrap { padding: 4px; }
-  .mark-legend-item { padding: 4px 6px; font-size: 11px; flex-wrap: wrap; }
-  .mark-legend-input { width: 50px; font-size: 10px; }
-  .mark-legend-box { width: 16px; height: 16px; }
-  .score-panel { padding: 8px; }
-  .score-panel-title { font-size: 13px; }
-  .zone-row { font-size: 12px; padding: 3px 4px; gap: 4px; }
-  .zone-name-input { width: 60px; font-size: 11px; }
-  .zone-pts { font-size: 11px; }
-  .zone-regions { font-size: 10px; padding-left: 12px; }
-  .card { padding: 10px; }
-  .card-title { font-size: 13px; }
-  .help-text { font-size: 11px; }
-  .help-text li { margin-bottom: 2px; }
-  #author { font-size: 10px; bottom: 6px; right: 6px; padding: 2px 8px; }
-  .legend { font-size: 10px; gap: 6px; flex-wrap: wrap; }
-  .legend-box { width: 10px; height: 10px; }
-  .btn { min-height: 32px; min-width: 32px; }
-}
 :root{--primary:#1E40AF;--accent:#0D9488;--bg:#F8FAFC;--fg:#1E3A8A;--muted:#E9EEF6;--border:#DBEAFE;--radius:8px}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--fg);min-height:100vh}
@@ -97,36 +68,6 @@ header p{font-size:12px;color:#64748B;margin-top:2px}
 .color-toolbar .btn{padding:6px 12px;font-size:13px}
 .color-toolbar-label{font-size:12px;color:#64748B;white-space:nowrap;margin-right:4px}
 #author{position:fixed;bottom:12px;right:16px;font-size:12px;color:#64748B;z-index:110;background:rgba(248,250,252,0.92);padding:4px 10px;border-radius:6px;border:1px solid #DBEAFE}
-
-/* ===== 移动端适配 ===== */
-@media (max-width: 640px) {
-  header h1 { font-size: 14px; }
-  header p { font-size: 11px; display: none; }
-  .container { padding: 8px; gap: 8px; }
-  .color-toolbar { padding: 6px 6px; gap: 4px; justify-content: center; }
-  .color-toolbar-label { font-size: 10px; width: 100%; text-align: center; }
-  .color-toolbar .color-grid { grid-template-columns: repeat(10, 1fr); gap: 3px; width: 100%; }
-  .color-toolbar .color-btn { width: 24px; height: 24px; min-width: 20px; min-height: 20px; }
-  .color-toolbar .btn { padding: 4px 8px; font-size: 11px; flex: 1; min-height: 32px; justify-content: center; }
-  .map-wrap { padding: 4px; }
-  .mark-legend-item { padding: 4px 6px; font-size: 11px; flex-wrap: wrap; }
-  .mark-legend-input { width: 50px; font-size: 10px; }
-  .mark-legend-box { width: 16px; height: 16px; }
-  .score-panel { padding: 8px; }
-  .score-panel-title { font-size: 13px; }
-  .zone-row { font-size: 12px; padding: 3px 4px; gap: 4px; }
-  .zone-name-input { width: 60px; font-size: 11px; }
-  .zone-pts { font-size: 11px; }
-  .zone-regions { font-size: 10px; padding-left: 12px; }
-  .card { padding: 10px; }
-  .card-title { font-size: 13px; }
-  .help-text { font-size: 11px; }
-  .help-text li { margin-bottom: 2px; }
-  #author { font-size: 10px; bottom: 6px; right: 6px; padding: 2px 8px; }
-  .legend { font-size: 10px; gap: 6px; }
-  .legend-box { width: 10px; height: 10px; }
-  .btn { min-height: 36px; min-width: 36px; }
-}
 </style>
 </head>
 <body>
@@ -249,10 +190,10 @@ const { createApp, ref, reactive, computed, onMounted } = Vue;
 // 🔧 GitHub 配置 - 请修改为你的信息
 // ============================================================
 const GITHUB_CONFIG = {
-  owner: '你的GitHub用户名',
-  repo: '你的仓库名',
-  path: 'data/map-data.json',
-  token: '你的Personal Access Token'
+  owner: '你的GitHub用户名',      // 例如: 'zhangsan'
+  repo: '你的仓库名',             // 例如: 'my-map-data'
+  path: 'data/map-data.json',    // 数据文件路径
+  token: '你的Personal Access Token' // 需要 repo 权限
 };
 
 // ============================================================
@@ -277,7 +218,9 @@ async function loadFromGitHubAPI() {
     headers: { 'Authorization': `token ${GITHUB_CONFIG.token}` }
   });
   if (!res.ok) {
-    if (res.status === 404) return { fills: {}, colorNames: {} };
+    if (res.status === 404) {
+      return { fills: {}, colorNames: {} };
+    }
     throw new Error(`加载失败: ${res.status}`);
   }
   const data = await res.json();
@@ -286,13 +229,19 @@ async function loadFromGitHubAPI() {
 }
 
 async function saveToGitHubAPI(data) {
+  // 1. 获取当前文件的 SHA
   const sha = await getFileSha();
+  
+  // 2. 编码内容
   const content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
+  
+  // 3. 提交更新
   const body = {
     message: `更新地图数据 ${new Date().toLocaleString()}`,
     content: content,
     sha: sha
   };
+  
   const res = await fetch(GITHUB_API, {
     method: 'PUT',
     headers: {
@@ -301,6 +250,7 @@ async function saveToGitHubAPI(data) {
     },
     body: JSON.stringify(body)
   });
+  
   if (!res.ok) {
     const err = await res.json();
     throw new Error(err.message || `保存失败: ${res.status}`);
@@ -311,229 +261,5 @@ async function saveToGitHubAPI(data) {
 // ============================================================
 // Vue 应用
 // ============================================================
-const PATH_DATA = {
-  "0":{"score":150,"zone":"1"},"3":{"score":150,"zone":"1"},"4":{"score":300,"zone":"2"},"2":{"score":150,"zone":"1"},"1":{"score":150,"zone":"1"},"6":{"score":150,"zone":"1"},"5":{"score":150,"zone":"1"},"7":{"score":300,"zone":"2"},"9":{"score":1200,"zone":"4"},"8":{"score":600,"zone":"3"},"11":{"score":300,"zone":"2"},"10":{"score":1200,"zone":"4"},"12":{"score":2400,"zone":"5"},"17":{"score":300,"zone":"2"},"14":{"score":600,"zone":"3"},"13":{"score":600,"zone":"3"},"16":{"score":600,"zone":"3"},"15":{"score":150,"zone":"1"},"19":{"score":150,"zone":"1"},"20":{"score":300,"zone":"2"},"18":{"score":600,"zone":"3"},"21":{"score":2400,"zone":"5"},"22":{"score":600,"zone":"3"},"25":{"score":2400,"zone":"5"},"24":{"score":1200,"zone":"4"},"23":{"score":1200,"zone":"4"},"28":{"score":300,"zone":"2"},"27":{"score":2400,"zone":"5"},"26":{"score":300,"zone":"2"},"30":{"score":300,"zone":"2"},"29":{"score":1200,"zone":"4"},"36":{"score":7200,"zone":"6"},"33":{"score":21600,"zone":"7"},"32":{"score":7200,"zone":"6"},"37":{"score":150,"zone":"1"},"31":{"score":1200,"zone":"4"},"34":{"score":300,"zone":"2"},"35":{"score":150,"zone":"1"},"38":{"score":600,"zone":"3"},"40":{"score":70000,"zone":"8"},"39":{"score":2400,"zone":"5"},"43":{"score":2400,"zone":"5"},"41":{"score":300,"zone":"2"},"44":{"score":21600,"zone":"7"},"42":{"score":21600,"zone":"7"},"46":{"score":150,"zone":"1"},"45":{"score":1200,"zone":"4"},"47":{"score":7200,"zone":"6"},"48":{"score":7200,"zone":"6"},"49":{"score":1200,"zone":"4"},"50":{"score":600,"zone":"3"},"51":{"score":300,"zone":"2"},"52":{"score":1200,"zone":"4"},"53":{"score":2400,"zone":"5"},"54":{"score":1200,"zone":"4"},"55":{"score":300,"zone":"2"},"56":{"score":1200,"zone":"4"},"57":{"score":1200,"zone":"4"},"58":{"score":300,"zone":"2"},"59":{"score":2400,"zone":"5"},"61":{"score":2400,"zone":"5"},"62":{"score":600,"zone":"3"},"60":{"score":600,"zone":"3"},"63":{"score":600,"zone":"3"},"65":{"score":600,"zone":"3"},"64":{"score":600,"zone":"3"},"66":{"score":600,"zone":"3"},"67":{"score":1200,"zone":"4"},"71":{"score":300,"zone":"2"},"70":{"score":1200,"zone":"4"},"68":{"score":300,"zone":"2"},"72":{"score":150,"zone":"1"},"69":{"score":150,"zone":"1"},"74":{"score":2400,"zone":"5"},"73":{"score":2400,"zone":"5"},"75":{"score":300,"zone":"2"},"76":{"score":300,"zone":"2"},"77":{"score":300,"zone":"2"},"80":{"score":150,"zone":"1"},"78":{"score":150,"zone":"1"},"79":{"score":150,"zone":"1"},"81":{"score":150,"zone":"1"},"83":{"score":150,"zone":"1"},"82":{"score":150,"zone":"1"},"84":{"score":150,"zone":"1"}
-};
-
-const MAP_PATHS = [
-  {"id":"0","label":"1-7","score":150,"zone":"1","defaultFill":"rgba(74,222,128,0.55)","d":"M 13.67,10.09 L 26.63,10.09 L 26.63,10.29 L 26.56,10.35 L 26.56,10.42 L 25.91,11.07 L 25.91,11.13 L 25.72,11.33 L 25.72,11.39 L 25.65,11.46 L 25.65,11.52 L 25.52,11.65 L 25.52,11.72 L 25.46,11.78 L 25.46,11.85 L 25.39,11.91 L 25.39,11.98 L 25.26,12.11 L 25.26,12.17 L 25.0,12.43 L 25.0,12.5 L 24.41,13.09 L 24.41,13.15 L 24.22,13.35 L 24.15,13.35 L 23.96,13.54 L 23.96,13.67 L 23.89,13.74 L 23.89,14.0 L 23.83,14.06 L 23.83,14.39 L 23.76,14.45 L 23.76,14.71 L 23.7,14.78 L 23.7,15.04 L 23.63,15.1 L 23.7,15.17 L 23.63,15.23 L 23.18,15.23 L 23.11,15.17 L 23.05,15.17 L 22.98,15.1 L 22.92,15.1 L 22.85,15.04 L 22.79,15.04 L 22.72,14.97 L 22.59,14.97 L 22.53,14.91 L 22.4,14.91 L 22.33,14.84 L 21.03,14.84 L 20.96,14.78 L 20.64,14.78 L 20.57,14.71 L 20.44,14.71 L 20.38,14.65 L 20.25,14.65 L 20.18,14.58 L 19.79,14.58 L 19.73,14.52 L 18.82,14.52 L 18.75,14.58 L 18.36,14.58 L 18.29,14.65 L 18.16,14.65 L 18.1,14.71 L 18.03,14.71 L 17.97,14.78 L 17.84,14.78 L 17.77,14.84 L 17.71,14.84 L 17.64,14.91 L 17.51,14.91 L 17.45,14.97 L 17.25,14.97 L 17.19,15.04 L 16.99,15.04 L 16.93,14.97 L 16.67,14.97 L 16.6,14.91 L 16.54,14.91 L 16.47,14.84 L 16.41,14.84 L 16.34,14.78 L 16.21,14.78 L 16.15,14.71 L 15.23,14.71 L 15.17,14.78 L 15.1,14.78 L 14.78,14.45 L 14.71,14.45 L 14.58,14.32 L 14.52,14.32 L 14.39,14.19 L 14.32,14.19 L 14.13,14.0 L 14.06,14.0 L 13.61,13.54 L 13.61,13.48 L 13.35,13.22 L 13.35,13.15 L 13.22,13.02 L 13.22,12.96 L 13.15,12.89 L 13.15,12.7 L 13.28,12.57 L 13.28,12.5 L 14.0,11.78 L 14.0,11.72 L 14.06,11.65 L 14.06,11.59 L 14.13,11.52 L 14.13,11.26 L 13.87,11.0 L 13.87,10.94 L 13.74,10.81 L 13.74,10.74 L 13.67,10.68 L 13.67,10.16 Z"},
-  // ... 此处省略剩余 84 个路径数据，请从你原文件中完整复制 MAP_PATHS 数组
-  // 由于回答长度限制，仅保留第一项作为示例，实际使用请替换为完整数据
-];
-
-// 标签和分数数据（同样请从原文件完整复制）
-const LABEL_TEXTS = [];
-const SCORE_TEXTS = [];
-
-// ============================================================
-// Vue 应用 setup
-// ============================================================
-const app = createApp({
-  setup() {
-    const mapImg = ref('请替换为地图图片的Base64数据'); // ⚠️ 替换此处
-    const mapPaths = ref(MAP_PATHS);
-    const labelTexts = ref(LABEL_TEXTS);
-    const scoreTexts = ref(SCORE_TEXTS);
-    const colors = ref([
-      {color:'transparent', fill:'rgba(255,255,255,0.02)', title:'透明', btnStyle:'background:#fff;border:1px solid #ddd'},
-      {color:'#EF4444', fill:'rgba(239,68,68,0.55)', title:'红色', btnStyle:'background:#EF4444'},
-      {color:'#F97316', fill:'rgba(249,115,22,0.55)', title:'橙色', btnStyle:'background:#F97316'},
-      {color:'#EAB308', fill:'rgba(234,179,8,0.55)', title:'黄色', btnStyle:'background:#EAB308'},
-      {color:'#22C55E', fill:'rgba(34,197,94,0.55)', title:'绿色', btnStyle:'background:#22C55E'},
-      {color:'#06B6D4', fill:'rgba(6,182,212,0.55)', title:'青色', btnStyle:'background:#06B6D4'},
-      {color:'#3B82F6', fill:'rgba(59,130,246,0.55)', title:'蓝色', btnStyle:'background:#3B82F6'},
-      {color:'#8B5CF6', fill:'rgba(139,92,246,0.55)', title:'紫色', btnStyle:'background:#8B5CF6'},
-      {color:'#EC4899', fill:'rgba(236,72,153,0.55)', title:'粉色', btnStyle:'background:#EC4899'},
-      {color:'#6B7280', fill:'rgba(107,114,128,0.55)', title:'灰色', btnStyle:'background:#6B7280'}
-    ]);
-    const currentColor = ref('transparent');
-    const currentFill = ref('rgba(255,255,255,0.02)');
-    const selectedMap = reactive({});
-    const pathFills = reactive({});
-    const colorNames = reactive({});
-    const saving = ref(false);
-    const loading = ref(false);
-    const syncStatus = ref('本地');
-
-    // localStorage 保存/加载
-    function saveState() {
-      try {
-        const fills = {};
-        Object.entries(pathFills).forEach(([id, fill]) => {
-          if (fill && !['rgba(255,255,255,0.02)','rgba(255,255,255,0.05)',''].includes(fill)) fills[id] = fill;
-        });
-        localStorage.setItem('g3map_state_v1', JSON.stringify({ fills, colorNames: {...colorNames} }));
-      } catch(e) {}
-    }
-    function loadState() {
-      try {
-        const raw = localStorage.getItem('g3map_state_v1');
-        if (!raw) return;
-        const state = JSON.parse(raw);
-        if (state.fills) Object.entries(state.fills).forEach(([id, fill]) => { pathFills[id] = fill; });
-        if (state.colorNames) Object.entries(state.colorNames).forEach(([fill, name]) => { colorNames[fill] = name; });
-      } catch(e) {}
-    }
-
-    function getPathStyle(id) {
-      if (selectedMap[id]) {
-        return { fill:'rgba(0,0,0,0.1)', stroke:'rgba(0,0,0,0.25)', strokeWidth:'0.7' };
-      }
-      const fill = pathFills[id] || 'rgba(255,255,255,0.05)';
-      return { fill, stroke:'rgba(200,200,200,0.6)', strokeWidth:'0.25' };
-    }
-
-    function selectColor(c) {
-      currentColor.value = c.color;
-      currentFill.value = c.fill;
-    }
-
-    function toggleRegion(id) {
-      if (selectedMap[id]) delete selectedMap[id];
-      else selectedMap[id] = true;
-    }
-    function clearSelect() { Object.keys(selectedMap).forEach(k => delete selectedMap[k]); }
-    function cancelSelect() { clearSelect(); }
-
-    function applyColor() {
-      const ids = Object.keys(selectedMap);
-      if (ids.length === 0) return;
-      const fill = currentFill.value;
-      ids.forEach(id => {
-        if (['rgba(255,255,255,0.02)','rgba(255,255,255,0.05)',''].includes(fill)) delete pathFills[id];
-        else pathFills[id] = fill;
-      });
-      clearSelect();
-      saveState();
-    }
-
-    function resetAll() {
-      if (!confirm('确定要重置所有标记吗？')) return;
-      Object.keys(pathFills).forEach(k => delete pathFills[k]);
-      Object.keys(colorNames).forEach(k => delete colorNames[k]);
-      clearSelect();
-      saveState();
-    }
-
-    // 标记图例
-    const markLegendItems = computed(() => {
-      const fills = new Set();
-      Object.values(pathFills).forEach(f => { if (f && !['rgba(255,255,255,0.02)','rgba(255,255,255,0.05)',''].includes(f)) fills.add(f); });
-      return [...fills].map(fill => ({ fill }));
-    });
-
-    function onLegendInput(fill, val) {
-      colorNames[fill] = val;
-      saveState();
-    }
-    function removeMark(fill) {
-      Object.keys(pathFills).forEach(id => { if (pathFills[id] === fill) delete pathFills[id]; });
-      delete colorNames[fill];
-      saveState();
-    }
-
-    // 积分排名
-    const scoreRows = computed(() => {
-      const totals = {}, labels = {};
-      Object.entries(pathFills).forEach(([id, fill]) => {
-        if (!fill || ['rgba(255,255,255,0.02)','rgba(255,255,255,0.05)',''].includes(fill)) return;
-        const info = PATH_DATA[id];
-        if (!info) return;
-        totals[fill] = (totals[fill] || 0) + info.score;
-        if (!labels[fill]) labels[fill] = [];
-        const pathObj = MAP_PATHS.find(p => p.id === id);
-        labels[fill].push(pathObj ? pathObj.label : id);
-      });
-      return Object.keys(totals)
-        .sort((a, b) => totals[b] - totals[a])
-        .map(fill => ({
-          fill,
-          total: totals[fill],
-          labels: (labels[fill] || []).slice().sort((a, b) => a.localeCompare(b, 'zh'))
-        }));
-    });
-
-    function onNameFocus(fill, e) {
-      if (e.target.value === '请填写军团名') e.target.value = '';
-    }
-    function onNameInput(fill, val) {
-      colorNames[fill] = val;
-      saveState();
-    }
-    function onNameBlur(fill, e) {
-      if (!e.target.value.trim()) {
-        colorNames[fill] = '';
-        e.target.value = '请填写军团名';
-      }
-      saveState();
-    }
-
-    // GitHub 云端操作
-    async function saveToGitHub() {
-      if (saving.value) return;
-      saving.value = true;
-      syncStatus.value = '保存中...';
-      try {
-        const data = { fills: { ...pathFills }, colorNames: { ...colorNames } };
-        await saveToGitHubAPI(data);
-        syncStatus.value = '✅ 已保存';
-        toast('保存成功！数据已上传到GitHub', 'success');
-      } catch (err) {
-        console.error(err);
-        syncStatus.value = '❌ 保存失败';
-        toast('保存失败: ' + err.message, 'error');
-      } finally {
-        saving.value = false;
-      }
-    }
-
-    async function loadFromGitHub() {
-      if (loading.value) return;
-      loading.value = true;
-      syncStatus.value = '加载中...';
-      try {
-        const data = await loadFromGitHubAPI();
-        Object.keys(pathFills).forEach(k => delete pathFills[k]);
-        Object.keys(colorNames).forEach(k => delete colorNames[k]);
-        if (data.fills) Object.assign(pathFills, data.fills);
-        if (data.colorNames) Object.assign(colorNames, data.colorNames);
-        syncStatus.value = '✅ 已恢复';
-        toast('恢复成功！已加载云端数据', 'success');
-      } catch (err) {
-        console.error(err);
-        syncStatus.value = '❌ 加载失败';
-        toast('加载失败: ' + err.message, 'error');
-      } finally {
-        loading.value = false;
-      }
-    }
-
-    function toast(message, type = 'info') {
-      const div = document.createElement('div');
-      div.className = `toast toast-${type}`;
-      div.textContent = message;
-      document.body.appendChild(div);
-      setTimeout(() => div.remove(), 3000);
-    }
-
-    onMounted(() => {
-      loadState();
-    });
-
-    return {
-      mapImg, mapPaths, labelTexts, scoreTexts, colors,
-      currentColor, selectedMap, pathFills, colorNames,
-      saving, loading, syncStatus,
-      getPathStyle, selectColor, toggleRegion, clearSelect,
-      cancelSelect, applyColor, resetAll,
-      markLegendItems, onLegendInput, removeMark,
-      scoreRows, onNameFocus, onNameInput, onNameBlur,
-      saveToGitHub, loadFromGitHub
-    };
-  }
-});
-
-app.mount('#app');
-</script>
-</body>
-</html>
+const PATH_DATA = {"0": {"score": 150, "zone": "1"}, "3": {"score": 150, "zone": "1"}, "4": {"score": 300, "zone": "2"}, "2": {"score": 150, "zone": "1"}, "1": {"score": 150, "zone": "1"}, "6": {"score": 150, "zone": "1"}, "5": {"score": 150, "zone": "1"}, "7": {"score": 300, "zone": "2"}, "9": {"score": 1200, "zone": "4"}, "8": {"score": 600, "zone": "3"}, "11": {"score": 300, "zone": "2"}, "10": {"score": 1200, "zone": "4"}, "12": {"score": 2400, "zone": "5"}, "17": {"score": 300, "zone": "2"}, "14": {"score": 600, "zone": "3"}, "13": {"score": 600, "zone": "3"}, "16": {"score": 600, "zone": "3"}, "15": {"score": 150, "zone": "1"}, "19": {"score": 150, "zone": "1"}, "20": {"score": 300, "zone": "2"}, "18": {"score": 600, "zone": "3"}, "21": {"score": 2400, "zone": "5"}, "22": {"score": 600, "zone": "3"}, "25": {"score": 2400, "zone": "5"}, "24": {"score": 1200, "zone": "4"}, "23": {"score": 1200, "zone": "4"}, "28": {"score": 300, "zone": "2"}, "27": {"score": 2400, "zone": "5"}, "26": {"score": 300, "zone": "2"}, "30": {"score": 300, "zone": "2"}, "29": {"score": 1200, "zone": "4"}, "36": {"score": 7200, "zone": "6"}, "33": {"score": 21600, "zone": "7"}, "32": {"score": 7200, "zone": "6"}, "37": {"score": 150, "zone": "1"}, "31": {"score": 1200, "zone": "4"}, "34": {"score": 300, "zone": "2"}, "35": {"score": 150, "zone": "1"}, "38": {"score": 600, "zone": "3"}, "40": {"score": 70000, "zone": "8"}, "39": {"score": 2400, "zone": "5"}, "43": {"score": 2400, "zone": "5"}, "41": {"score": 300, "zone": "2"}, "44": {"score": 21600, "zone": "7"}, "42": {"score": 21600, "zone": "7"}, "46": {"score": 150, "zone": "1"}, "45": {"score": 1200, "zone": "4"}, "47": {"score": 7200, "zone": "6"}, "48": {"score": 7200, "zone": "6"}, "49": {"score": 1200, "zone": "4"}, "50": {"score": 600, "zone": "3"}, "51": {"score": 300, "zone": "2"}, "52": {"score": 1200, "zone": "4"}, "53": {"score": 2400, "zone": "5"}, "54": {"score": 1200, "zone": "4"}, "55": {"score": 300, "zone": "2"}, "56": {"score": 1200, "zone": "4"}, "57": {"score": 1200, "zone": "4"}, "58": {"score": 300, "zone": "2"}, "59": {"score": 2400, "zone": "5"}, "61": {"score": 2400, "zone": "5"}, "62": {"score": 600, "zone": "3"}, "60": {"score": 600, "zone": "3"}, "63": {"score": 600, "zone": "3"}, "65": {"score": 600, "zone": "3"}, "64": {"score": 600, "zone": "3"}, "66": {"score": 600, "zone": "3"}, "67": {"score": 1200, "zone": "4"}, "71": {"score": 300, "zone": "2"}, "70": {"score": 1200, "zone": "4"}, "68": {"score": 300, "zone": "2"}, "72": {"score": 150, "zone": "1"}, "69": {"score": 150, "zone": "1"}, "74": {"score": 2400, "zone": "5"}, "73": {"score": 2400, "zone": "5"}, "75": {"score": 300, "zone": "2"}, "76": {"score": 300, "zone": "2"}, "77": {"score": 300, "zone": "2"}, "80": {"score": 150, "zone": "1"}, "78": {"score": 150, "zone": "1"}, "79": {"score": 150, "zone": "1"}, "81": {"score": 150, "zone": "1"}, "83": {"score": 150, "zone": "1"}, "82": {"score": 150, "zone": "1"}, "84": {"score": 150, "zone": "1"}};
+const MAP_PATHS = [{"id":"0","label":"1-7","score":150,"zone":"1","defaultFill":"rgba(74,222,128,0.55)","d":"M 13.67,10.09 L 26.63,10.09 L 26.63,10.29 L 26.56,10.35 L 26.56,10.42 L 25.91,11.07 L 25.91,11.13 L 25.72,11.33 L 25.72,11.39 L 25.65,11.46 L 25.65,11.52 L 25.52,11.65 L 25.52,11.72 L 25.46,11.78 L 25.46,11.85 L 25.39,11.91 L 25.39,11.98 L 25.26,12.11 L 25.26,12.17 L 25.0,12.43 L 25.0,12.5 L 24.41,13.09 L 24.41,13.15 L 24.22,13.35 L 24.15,13.35 L 23.96,13.54 L 23.96,13.67 L 23.89,13.74 L 23.89,14.0 L 23.83,14.06 L 23.83,14.39 L 23.76,14.45 L 23.76,14.71 L 23.7,14.78 L 23.7,15.04 L 23.63,15.1 L 23.7,15.17 L 23.63,15.23 L 23.18,15.23 L 23.11,15.17 L 23.05,15.17 L 22.98,15.1 L 22.92,15.1 L 22.85,15.04 L 22.79,15.04 L 22.72,14.97 L 22.59,14.97 L 22.53,14.91 L 22.4,14.91 L 22.33,14.84 L 21.03,14.84 L 20.96,14.78 L 20.64,14.78 L 20.57,14.71 L 20.44,14.71 L 20.38,14.65 L 20.25,14.65 L 20.18,14.58 L 19.79,14.58 L 19.73,14.52 L 18.82,14.52 L 18.75,14.58 L 18.36,14.58 L 18.29,14.65 L 18.16,14.65 L 18.1,14.71 L 18.03,14.71 L 17.97,14.78 L 17.84,14.78 L 17.77,14.84 L 17.71,14.84 L 17.64,14.91 L 17.51,14.91 L 17.45,14.97 L 17.25,14.97 L 17.19,15.04 L 16.99,15.04 L 16.93,14.97 L 16.67,14.97 L 16.6,14.91 L 16.54,14.91 L 16.47,14.84 L 16.41,14.84 L 16.34,14.78 L 16.21,14.78 L 16.15,14.71 L 15.23,14.71 L 15.17,14.78 L 15.1,14.78 L 14.78,14.45 L 14.71,14.45 L 14.58,14.32 L 14.52,14.32 L 14.39,14.19 L 14.32,14.19 L 14.13,14.0 L 14.06,14.0 L 13.61,13.54 L 13.61,13.48 L 13.35,13.22 L 13.35,13.15 L 13.22,13.02 L 13.22,12.96 L 13.15,12.89 L 13.15,12.7 L 13.28,12.57 L 13.28,12.5 L 14.0,11.78 L 14.0,11.72 L 14.06,11.65 L 14.06,11.59 L 14.13,11.52 L 14.13,11.26 L 13.87,11.0 L 13.87,10.94 L 13.74,10.81 L 13.74,10.74 L 13.67,10.68 L 13.67,10.16 Z"},{"id":"1","label":"1-11","score":150,"zone":"1","defaultFill":"rgba(74,222,128,0.55)","d":"M 76.56,10.09 L 84.83,10.09 L 84.83,10.87 L 84.77,10.94 L 84.77,11.13 L 84.7,11.2 L 84.7,11.39 L 84.64,11.46 L 84.64,11.59 L 84.57,11.65 L 84.57,11.78 L 84.51,11.85 L 84.51,12.43 L 84.57,12.5 L 84.57,12.57 L 84.64,12.63 L 84.64,12.7 L 84.7,12.76 L 84.7,12.83 L 85.29,13.41 L 85.35,13.41 L 85.48,13.54 L 85.55,13.54 L 85.61,13.61 L 85.68,13.61 L 85.74,13.67 L 85.87,13.67 L 85.94,13.74 L 86.07,13.74 L 86.13,13.8 L 86.13,13.87 L 86.07,13.93 L 86.07,14.0 L 86.0,14.0 L 85.87,14.13 L 85.81,14.13 L 85.68,14.26 L 85.61,14.26 L 85.48,14.39 L 85.42,14.39 L 85.35,14.45 L 85.22,14.45 L 85.16,14.52 L 85.03,14.52 L 84.96,14.58 L 84.77,14.58 L 84.7,14.65 L 84.51,14.65 L 84.44,14.71 L 84.31,14.71 L 84.24,14.78 L 84.05,14.78 L 83.98,14.84 L 83.79,14.84 L 83.72,14.91 L 83.53,14.91 L 83.46,14.97 L 83.27,14.97 L 83.2,15.04 L 82.94,15.04 L 82.88,15.1 L 82.68,15.1 L 82.62,15.17 L 82.49,15.17 L 82.42,15.23 L 82.36,15.23 L 82.29,15.3 L 82.23,15.3 L 82.16,15.36 L 82.1,15.36 L 82.03,15.43 L 81.9,15.43 L 81.84,15.49 L 81.64,15.49 L 81.58,15.56 L 81.51,15.49 L 80.92,15.49 L 80.86,15.56 L 80.53,15.56 L 80.47,15.63 L 80.21,15.63 L 80.14,15.69 L 80.08,15.69 L 80.01,15.76 L 79.88,15.76 L 79.82,15.82 L 79.75,15.82 L 79.69,15.89 L 79.62,15.89 L 79.56,15.95 L 79.43,15.95 L 79.36,16.02 L 79.3,16.02 L 79.23,16.08 L 79.1,16.08 L 79.04,16.15 L 78.58,16.15 L 78.52,16.08 L 78.45,16.08 L 78.39,16.02 L 78.32,16.02 L 78.26,15.95 L 78.19,15.95 L 78.06,15.82 L 77.99,15.82 L 77.67,15.49 L 77.6,15.49 L 77.47,15.36 L 77.41,15.36 L 77.41,15.17 L 77.34,15.1 L 77.34,15.04 L 77.28,14.97 L 77.28,14.84 L 77.21,14.78 L 77.21,14.71 L 77.15,14.65 L 77.15,14.58 L 77.08,14.52 L 77.08,14.45 L 77.02,14.39 L 77.02,14.32 L 76.69,14.0 L 76.63,14.0 L 76.5,13.87 L 76.43,13.87 L 76.37,13.8 L 76.3,13.8 L 76.24,13.74 L 76.17,13.74 L 76.11,13.67 L 75.98,13.67 L 75.91,13.61 L 75.78,13.61 L 75.72,13.54 L 75.65,13.54 L 75.52,13.41 L 75.52,13.02 L 75.59,13.02 L 75.85,12.76 L 75.85,12.37 L 75.78,12.3 L 75.78,12.24 L 75.59,12.04 L 75
