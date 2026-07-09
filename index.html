@@ -68,35 +68,6 @@ header p{font-size:12px;color:#64748B;margin-top:2px}
 .color-toolbar .btn{padding:6px 12px;font-size:13px}
 .color-toolbar-label{font-size:12px;color:#64748B;white-space:nowrap;margin-right:4px}
 #author{position:fixed;bottom:12px;right:16px;font-size:12px;color:#64748B;z-index:110;background:rgba(248,250,252,0.92);padding:4px 10px;border-radius:6px;border:1px solid #DBEAFE}
-/* ===== 手机端适配 ===== */
-@media (max-width: 640px) {
-  header h1 { font-size: 14px; }
-  header p { font-size: 11px; }
-  .container { padding: 8px; gap: 8px; }
-  .color-toolbar { padding: 6px 6px; gap: 4px; justify-content: center; }
-  .color-toolbar-label { font-size: 10px; width: 100%; text-align: center; }
-  .color-toolbar .color-grid { grid-template-columns: repeat(10, 1fr); gap: 3px; width: 100%; }
-  .color-toolbar .color-btn { width: 22px; height: 22px; min-width: 18px; min-height: 18px; }
-  .color-toolbar .btn { padding: 4px 6px; font-size: 11px; flex: 1; min-height: 32px; justify-content: center; }
-  .map-wrap { padding: 4px; }
-  .mark-legend-item { padding: 4px 6px; font-size: 11px; flex-wrap: wrap; }
-  .mark-legend-input { width: 50px; font-size: 10px; }
-  .mark-legend-box { width: 16px; height: 16px; }
-  .score-panel { padding: 8px; }
-  .score-panel-title { font-size: 13px; }
-  .zone-row { font-size: 12px; padding: 3px 4px; gap: 4px; }
-  .zone-name-input { width: 60px; font-size: 11px; }
-  .zone-pts { font-size: 11px; }
-  .zone-regions { font-size: 10px; padding-left: 12px; }
-  .card { padding: 10px; }
-  .card-title { font-size: 13px; }
-  .help-text { font-size: 11px; }
-  .help-text li { margin-bottom: 2px; }
-  #author { font-size: 10px; bottom: 6px; right: 6px; padding: 2px 8px; }
-  .legend { font-size: 10px; gap: 6px; flex-wrap: wrap; }
-  .legend-box { width: 10px; height: 10px; }
-  .btn { min-height: 32px; min-width: 32px; }
-}
 </style>
 </head>
 <body>
@@ -219,10 +190,10 @@ const { createApp, ref, reactive, computed, onMounted } = Vue;
 // 🔧 GitHub 配置 - 请修改为你的信息
 // ============================================================
 const GITHUB_CONFIG = {
-  owner: '你的GitHub用户名',      // 例如: 'zhangsan'
-  repo: '你的仓库名',             // 例如: 'my-map-data'
+  owner: 'iamhakan',      // 例如: 'zhangsan'
+  repo: 'G3map',             // 例如: 'my-map-data'
   path: 'data/map-data.json',    // 数据文件路径
-  token: '你的Personal Access Token' // 需要 repo 权限
+  token: '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' // 需要 repo 权限
 };
 
 // ============================================================
